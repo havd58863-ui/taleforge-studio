@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="container">
+  <h2>Production Dashboard</h2>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <label>Stories</label>
+      <strong>{{ stories|length }}</strong>
+    </div>
+    <div class="stat-box">
+      <label>Products</label>
+      <strong>{{ products|length if products else 0 }}</strong>
+    </div>
+    <div class="stat-box">
+      <label>Ready for export</label>
+      <strong>{{ ready_for_export|default(0) }}</strong>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr><th>Story</th><th>Genre</th><th>Age</th><th>Language</th><th>Scenes</th></tr>
+    </thead>
+    <tbody>
+      {% for story in stories %}
+      <tr>
+        <td>{{ story.title }}</td>
+        <td>{{ story.genre }}</td>
+        <td>{{ story.age_min }}–{{ story.age_max }}</td>
+        <td>{{ story.language|upper }}</td>
+        <td>{{ story.scenes|length }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No stories yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Run the pipeline</h3>
+  <p class="muted">POST <code>/api/pipeline/demo</code> to generate cover, interior, metadata and a zip bundle.</p>
+  <button class="btn primary" data-pipeline>Generate demo bundle</button>
+  <pre class="output" data-output></pre>
+</section>
+{% endblock %}

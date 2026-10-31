@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Catalog{% endblock %}
+{% block content %}
+<section class="container">
+  <h2>Catalog</h2>
+  <p class="muted">{{ products|length }} product(s) ready in the storefront.</p>
+
+  <div class="grid">
+    {% for product in products %}
+    <article class="card">
+      <h3>{{ product.title }}</h3>
+      <p class="muted">{{ product.subtitle or product.category }}</p>
+      <div class="meta">
+        <span>{{ product.category }}</span>
+        <span>Ages {{ product.age_group }}</span>
+        <span>{{ product.language|upper }}</span>
+        <span>{{ product.format_type }}</span>
+      </div>
+      <div class="price">{{ product.currency }} {{ "%.2f"|format(product.price) }}</div>
+    </article>
+    {% else %}
+    <article class="card"><p>No products yet — the demo seed runs on first page load.</p></article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

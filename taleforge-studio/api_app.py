@@ -1,0 +1,9 @@
+"""API-only entrypoint (same app, convenient for API clients / tests)."""
+from __future__ import annotations
+
+from app import create_app
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001, debug=True)

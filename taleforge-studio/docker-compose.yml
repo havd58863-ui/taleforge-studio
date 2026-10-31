@@ -1,0 +1,78 @@
+services:
+  taleforge-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: taleforge-api
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: http://minio:9000
+    volumes:
+      - ./output:/app/output
+      - ./secure_data:/app/secure_data
+      - ./vector_store:/app/vector_store
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - taleforge-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: taleforge-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taleforge}
+      POSTGRES_USER: ${POSTGRES_USER:-taleforge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taleforge123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taleforge}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taleforge-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: taleforge-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - taleforge-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: taleforge-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-taleforge}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-taleforge123}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - taleforge-network
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  taleforge-network:
+    driver: bridge

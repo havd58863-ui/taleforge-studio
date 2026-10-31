@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Story Demo{% endblock %}
+{% block content %}
+<section class="container">
+  <span class="eyebrow">{{ story.genre }} · ages {{ story.age_min }}–{{ story.age_max }} · {{ story.language|upper }}</span>
+  <h1>{{ story.title }}</h1>
+  <p class="lead">{{ story.premise }}</p>
+
+  <h2>Character bible</h2>
+  <div class="grid">
+    {% for character in story.characters %}
+    <article class="card">
+      <h3>{{ character.name }}</h3>
+      <p class="muted">{{ character.role }}</p>
+      <p>{{ character.personality }}</p>
+      <p class="small"><strong>Visual:</strong> {{ character.visual_summary }}</p>
+      <p class="small"><strong>Arc:</strong> {{ character.emotional_arc }}</p>
+    </article>
+    {% endfor %}
+  </div>
+
+  <h2>Scene prompts</h2>
+  {% for scene in story.scenes %}
+  <article class="card scene">
+    <header>
+      <h3>{{ scene.number }}. {{ scene.title }}</h3>
+      <div class="meta">
+        <span>{{ scene.page_type }}</span>
+        <span>{{ scene.camera_angle }}</span>
+        <span>{{ scene.mood }}</span>
+        <span>{{ scene.lighting }}</span>
+      </div>
+    </header>
+    <p>{{ scene.summary }}</p>
+    <details>
+      <summary>Prompt</summary>
+      <pre>{{ scene.prompt }}</pre>
+    </details>
+    <details>
+      <summary>Negative prompt</summary>
+      <pre>{{ scene.negative_prompt }}</pre>
+    </details>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

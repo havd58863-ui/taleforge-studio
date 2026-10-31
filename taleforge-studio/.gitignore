@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+venv/
+.venv/
+env/
+ENV/
+pip-log.txt
+python-version
+*.sqlite3
+*.db
+*.log
+
+# Flask instance folder (sqlite db)
+instance/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+kaggle.json
+
+# Generated artifacts
+output/*
+!output/README.txt
+uploads/
+tmp/
+temp/
+cache/
+downloads/
+artifacts/
+generated/
+*.zip
+
+# Private / secure content (structure kept, content ignored)
+secure_data/datasets/*
+secure_data/loras/*
+secure_data/references/*
+secure_data/generated/*
+!secure_data/**/README.txt
+!secure_data/**/.gitkeep
+vector_store/*
+!vector_store/README.txt
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+dist/
+build/

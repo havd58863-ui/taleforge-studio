@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ story.title }} — TaleForge Studio{% endblock %}
+
+{% block content %}
+<section class="container">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Private premium publishing platform</span>
+      <h1>{{ story.title }}</h1>
+      <p>{{ story.premise }}</p>
+      <div class="cta-row">
+        <a href="/catalog" class="btn primary">Explore products</a>
+        <a href="/story-demo" class="btn secondary">Open story demo</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="stat">
+        <strong>Idea score</strong>
+        <span class="score">{{ scores.total_score }}</span>
+      </div>
+      <div class="stat">
+        <strong>Recommendation</strong>
+        <span>{{ scores.recommendation }}</span>
+      </div>
+      <div class="stat">
+        <strong>Viable</strong>
+        <span>{{ "Yes" if scores.is_viable else "No" }}</span>
+      </div>
+      <div class="stat">
+        <strong>Characters / scenes</strong>
+        <span>{{ story.characters|length }} / {{ story.scenes|length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid cards-3">
+    <article class="card">
+      <h3>1 · Idea selection</h3>
+      <p>Originality, market fit, visual potential and novelty are scored before a concept is green-lit.</p>
+    </article>
+    <article class="card">
+      <h3>2 · Story &amp; scene engine</h3>
+      <p>Character bible, emotional arc and print-ready scene prompts with consistent character tokens.</p>
+    </article>
+    <article class="card">
+      <h3>3 · Print &amp; channels</h3>
+      <p>Trim, bleed, safe-margin aware PDFs, KDP/Etsy metadata and zip bundles ready for upload.</p>
+    </article>
+  </div>
+</section>
+{% endblock %}
