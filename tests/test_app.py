@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -192,12 +193,12 @@ def test_wrap_cover_pdf_renders(tmp_path):
     assert Path(result["path"]).exists()
     assert result["spec"]["spine_text_allowed"] is True
 
-    import pymupdf
-
-    doc = pymupdf.open(result["path"])
-    width_mm = doc[0].rect.width / 72 * 25.4
+    data = Path(result["path"]).read_bytes()
+    boxes = re.findall(rb"/MediaBox\s*\[\s*([\d.\-]+)\s+([\d.\-]+)\s+([\d.\-]+)\s+([\d.\-]+)\s*\]", data)
+    assert boxes
+    width_mm = float(boxes[0][2]) / 72 * 25.4
     assert abs(width_mm - result["spec"]["wrap_width_mm"]) < 0.5
-    assert doc.metadata.get("title") == "Luna and the Lantern Forest"
+    assert b"/Title (Luna and the Lantern Forest)" in data
 
 
 # ------------------------------------------------------------- image quality
