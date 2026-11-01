@@ -33,6 +33,13 @@ STOPWORDS = {
     "from", "that", "this", "it", "he", "she", "they", "we", "you", "i", "not", "no",
     "book", "books", "story", "stories", "children", "childrens", "kids", "kid", "tale",
     "tales", "series", "volume", "edition", "picture", "board",
+    # catalogue noise (Open Library / MARC records) — never a buying signal
+    "fiction", "fictitious", "juvenile", "published", "publish", "editions", "literature",
+    "works", "general", "english", "american", "language", "place", "social", "history",
+    "classic", "character", "characters", "imaginary", "accessible", "protected", "daisy",
+    "internet", "archive", "lending", "printdisabled", "poetry", "drama", "criticism",
+    "interpretation", "biography", "translations", "specimens", "pictorial", "miscellanea",
+    "openlibrary", "ia", "ocr", "epub", "available", "borrow",
 }
 
 # Trope patterns a children's-book market actually saturates on.
@@ -123,6 +130,20 @@ class MarketResearchService:
             dataset_dir or __import__("os").getenv("KAGGLE_DATASET_PATH", "./secure_data/datasets")
         )
         self._index: Optional[MarketIndex] = None
+
+    # ------------------------------------------------------------- data intake
+    def reload(self) -> "MarketResearchService":
+        """Forget the cached index so the next call sees newly downloaded data."""
+        self._index = None
+        return self
+
+    def sync(self, provider: str = "auto", refs: Optional[Iterable[str]] = None) -> Dict[str, Any]:
+        """Fill the dataset folder (Kaggle primary, public catalogue fallback) then re-index."""
+        from app.services.market_data_service import MarketDataService
+
+        result = MarketDataService(str(self.dataset_dir)).sync(provider=provider, refs=refs)
+        self.reload()
+        return {**result.to_dict(), "index": self.build_index().to_dict()}
 
     # ------------------------------------------------------------- data access
     def dataset_files(self) -> List[Path]:

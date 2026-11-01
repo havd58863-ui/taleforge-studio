@@ -18,7 +18,14 @@ from typing import Any, Dict, List, Optional
 
 ENGINES = ("sdxl", "flux", "midjourney", "dalle3", "generic")
 
+# حماية المنطقة الآمنة: الرسم يغطي الصفحة كاملة، لكن لا شيء مهم قرب حدّ القص.
+SAFE_AREA_DIRECTIVE = (
+    "centred composition, subject fully inside the central safe area with generous margins, "
+    "quiet empty space along the bottom for a text panel, no important detail near the edges"
+)
+
 NEGATIVE_BASE = (
+    "cropped subject, subject touching the edges, important detail near the trim, "
     "text, letters, watermark, signature, logo, frame, border, cropped head, cut hands, "
     "extra fingers, extra limbs, deformed anatomy, blurry face, dead eyes, plastic skin, "
     "harsh flash, oversaturated, cluttered background, scary imagery, weapons, blood"
@@ -118,15 +125,18 @@ class ImagePromptCompiler:
                 style_text,
                 f"palette {', '.join(palette)}" if palette else "",
                 f"{camera}, {lighting}, {mood}",
+                SAFE_AREA_DIRECTIVE,
                 SAFETY_SUFFIX[engine],
             ]
             positive = ", ".join(s for s in segments if s)
             positive, truncated = self._fit_clip(positive) if engine == "sdxl" else (positive, False)
             if truncated:
                 notes.append("prompt trimmed to the 77-token CLIP window (SDXL); cast kept first")
+            if SAFE_AREA_DIRECTIVE.split(",")[0] not in positive:
+                notes.append("safe-area directive trimmed for SDXL — crop to the safe area in post")
         elif engine == "midjourney":
             positive = (
-                f"{subject} --ar {ratio} --style raw --stylize 250 "
+                f"{subject}, {SAFE_AREA_DIRECTIVE} --ar {ratio} --style raw --stylize 250 "
                 f"--no {NEGATIVE_BASE}"
             )
             truncated = False
@@ -138,6 +148,8 @@ class ImagePromptCompiler:
                 f"Style: {style_text or 'soft watercolour, gentle linework'}. "
                 f"Palette: {', '.join(palette) or 'warm, gentle'}. "
                 f"Camera: {camera.replace('_', ' ')}; lighting: {lighting.replace('_', ' ')}; mood: {mood.replace('_', ' ')}. "
+                "Place the subject in the centre with generous margins, keep all important "
+                "elements well inside the page, and leave quiet space along the bottom for a text panel. "
                 "No text, no lettering, no logos, no watermark anywhere in the image. "
                 "Keep the scene gentle and appropriate for very young children."
             )

@@ -97,8 +97,28 @@ def _cached_line(line_service: LineArtService, image: str, base: Path) -> Dict[s
     return _LINE_CACHE[image]
 
 
+def build_market(dataset_dir: str):
+    """SEO from real market data, for the real title of each edition (data-first default)."""
+    try:
+        from app.services.market_research_service import MarketResearchService
+        from app.services.niche_service import NicheService
+
+        market = MarketResearchService(dataset_dir)
+        index = market.build_index()
+        if index.basis != "dataset" or index.items == 0:
+            print("  market: no dataset — keywords fall back to the built-in rules "
+                  "(run: python scripts/market_brief.py --fetch auto)")
+            return None
+        print("  market: %s titles analysed (%s)" % (index.items, ", ".join(index.sources[:2])))
+        return NicheService(dataset_dir, market)
+    except Exception as exc:
+        print(f"  market: unavailable ({type(exc).__name__}) — using built-in keyword rules")
+        return None
+
+
 def build_edition(name: str, out_root: Path, art_service: PlaceholderArtService,
-                  line_service: LineArtService, with_art: bool, force: bool) -> Dict[str, Any]:
+                  line_service: LineArtService, with_art: bool, force: bool,
+                  market: Optional[Any] = None) -> Dict[str, Any]:
     spec = EDITIONS[name]
     primary, secondary = spec["primary"], spec["secondary"]
     gates = {code: gate(code) for code in {primary, secondary or primary}}
@@ -190,6 +210,7 @@ def build_edition(name: str, out_root: Path, art_service: PlaceholderArtService,
         product_id=f"luna-{name}", title=digital_title,
         subtitle=SUBTITLES[primary], category="Picture Book",
         age_group="3-8", language=primary, price=spec["price"], page_count=32,
+        keywords=(market.keywords(digital_title)["kdp"] if (market and primary == "en") else None),
     )
     meta_path = folder / "metadata.json"
     meta_path.write_text(metadata.to_json(), encoding="utf-8")
@@ -245,6 +266,8 @@ def main() -> int:
     parser.add_argument("--out", default=None)
     parser.add_argument("--no-art", action="store_true", help="skip illustrations (fast dry run)")
     parser.add_argument("--force", action="store_true", help="publish even if the editorial gate fails")
+    parser.add_argument("--no-market", action="store_true",
+                        help="ignore the market brief (default: use its keywords when present)")
     args = parser.parse_args()
 
     app = create_app()
@@ -252,13 +275,16 @@ def main() -> int:
         out_root = Path(args.out or (Path(app.config["OUTPUT_DIR"]) / "library"))
         out_root.mkdir(parents=True, exist_ok=True)
         art_service, line_service = PlaceholderArtService(), LineArtService()
+        market = None if args.no_market else build_market(
+            app.config.get("KAGGLE_DATASET_PATH", "./secure_data/datasets"))
 
         wanted = args.only or list(EDITIONS)
         results = []
         for name in wanted:
             started = time.time()
             print(f"\n=== {name} ===")
-            result = build_edition(name, out_root, art_service, line_service, not args.no_art, args.force)
+            result = build_edition(name, out_root, art_service, line_service, not args.no_art,
+                                   args.force, market)
             result["seconds"] = round(time.time() - started, 1)
             results.append(result)
             if result.get("skipped"):

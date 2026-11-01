@@ -98,10 +98,12 @@ class MetadataService:
         preview_image: str = "",
         digital_files: Optional[List[str]] = None,
         print_files: Optional[List[str]] = None,
+        keywords: Optional[List[str]] = None,
     ) -> ProductMetadata:
         listing_title = MetadataService.build_listing_text(title, subtitle, category, age_group, language)
         description = MetadataService.build_description(title, subtitle, age_group, page_count, language)
-        keywords = MetadataService.build_keywords(title, category)
+        # keywords من بيانات السوق عند توفّرها (NicheService)، وإلا القواعد الافتراضية
+        keywords = list(keywords) if keywords else MetadataService.build_keywords(title, category)
 
         metadata_json = {
             "product_id": product_id,

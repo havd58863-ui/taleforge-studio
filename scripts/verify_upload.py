@@ -6,7 +6,7 @@
 
 Exit code 0 = complete, 1 = something is missing.
 
-The expected shape is the source tree only (100 files): the five books in ``output/library``
+The expected shape is the source tree only (109 files): the five books in ``output/library``
 are git-ignored by design, so they are reported separately instead of counting as missing.
 """
 from __future__ import annotations
@@ -21,13 +21,13 @@ import urllib.request
 from pathlib import Path
 from typing import Dict, List, Set
 
-EXPECTED_CORE_TOTAL = 103
+EXPECTED_CORE_TOTAL = 109
 
 # Directories whose file count must match exactly.
 EXPECTED_BY_DIR: Dict[str, int] = {
-    "app": 53,
-    "scripts": 14,
-    "docs": 8,
+    "app": 55,
+    "scripts": 15,
+    "docs": 11,
     "assets": 7,
     "tests": 1,
     ".github": 1,
@@ -55,6 +55,8 @@ CRITICAL: List[str] = [
     "app/services/text_layout_service.py", "app/services/fonts.py",
     "app/services/book_structure_service.py", "app/services/line_art_service.py",
     "app/services/placeholder_art_service.py",
+    "app/services/market_data_service.py", "app/services/niche_service.py",
+    "scripts/market_brief.py", "docs/MARKET.md", "docs/examples/niche_brief.md",
     "scripts/produce_library.py", "scripts/write_book.py", "scripts/ideate.py",
     "scripts/generate_scenes.py", "scripts/print_prep.py", "scripts/produce_book.py",
     "scripts/preflight.py", "scripts/bench_writers.py", "scripts/smoke_test.py",
