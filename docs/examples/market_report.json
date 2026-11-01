@@ -1,0 +1,216 @@
+{
+  "brief": {
+    "basis": "dataset",
+    "items": 2809,
+    "sources": [
+      "openlibrary_children_20261031.csv (2809)"
+    ],
+    "signal": "catalogue",
+    "niches": [
+      {
+        "trope": "moving_house",
+        "shelf": "moving house",
+        "angle": "one box, one room, and the thing that travels with you",
+        "promise": "makes a new home feel possible",
+        "saturation": 0.0021,
+        "demand_signal": 429,
+        "opportunity": 418.28,
+        "read": "open shelf — low competition, needs a strong cover promise"
+      },
+      {
+        "trope": "bedtime_sleep",
+        "shelf": "bedtime",
+        "angle": "a bedtime ritual with one small job for the child",
+        "promise": "calm, sleepy, made for the last five minutes of the day",
+        "saturation": 0.1602,
+        "demand_signal": 1051,
+        "opportunity": 359.64,
+        "read": "competitive but winnable with a specific angle"
+      },
+      {
+        "trope": "new_sibling",
+        "shelf": "new baby",
+        "angle": "a big sister who must make room for a small stranger",
+        "promise": "helps a child feel big, not replaced",
+        "saturation": 0.0452,
+        "demand_signal": 325,
+        "opportunity": 210.69,
+        "read": "open shelf — low competition, needs a strong cover promise"
+      },
+      {
+        "trope": "fear_of_dark",
+        "shelf": "fear of the dark",
+        "angle": "a dark that turns out to be made of ordinary sounds",
+        "promise": "turns the shadow into something known",
+        "saturation": 0.0157,
+        "demand_signal": 238,
+        "opportunity": 200.34,
+        "read": "open shelf — low competition, needs a strong cover promise"
+      },
+      {
+        "trope": "adventure_quest",
+        "shelf": "adventure",
+        "angle": "a journey with three clear obstacles and a way home",
+        "promise": "movement on every page",
+        "saturation": 0.1531,
+        "demand_signal": 541,
+        "opportunity": 190.7,
+        "read": "competitive but winnable with a specific angle"
+      },
+      {
+        "trope": "unicorn_magic",
+        "shelf": "unicorn",
+        "angle": "one impossible creature with a very ordinary problem",
+        "promise": "sparkle on the cover, kindness inside",
+        "saturation": 0.099,
+        "demand_signal": 361,
+        "opportunity": 165.02,
+        "read": "open shelf — low competition, needs a strong cover promise"
+      }
+    ],
+    "crowded": [
+      {
+        "trope": "bedtime_sleep",
+        "saturation": 0.1602
+      },
+      {
+        "trope": "adventure_quest",
+        "saturation": 0.1531
+      },
+      {
+        "trope": "talking_animals",
+        "saturation": 0.1452
+      }
+    ],
+    "titles": [
+      {
+        "title": "Nora and the Brave Bear",
+        "trope": "moving_house",
+        "demand_score": 1.613,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'moving_house' shelf"
+      },
+      {
+        "title": "Sam and the Rabbit of the Snow",
+        "trope": "moving_house",
+        "demand_score": 1.255,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'moving_house' shelf"
+      },
+      {
+        "title": "When the Cat Waits",
+        "trope": "moving_house",
+        "demand_score": 1.398,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'moving_house' shelf"
+      },
+      {
+        "title": "The Dog Who Would Not Listen",
+        "trope": "moving_house",
+        "demand_score": 1.663,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'moving_house' shelf"
+      },
+      {
+        "title": "Ada and the Quiet Dog",
+        "trope": "bedtime_sleep",
+        "demand_score": 1.431,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'bedtime_sleep' shelf"
+      },
+      {
+        "title": "Kai and the Forest of the Garden",
+        "trope": "bedtime_sleep",
+        "demand_score": 1.279,
+        "collides_with": [],
+        "why": "grounded in market words for the open 'bedtime_sleep' shelf"
+      }
+    ],
+    "keywords": {
+      "kdp": [
+        "nora and the brave bear",
+        "moving house book for kids 3-8",
+        "lantern picture book for toddlers",
+        "read aloud story ages 3 8",
+        "moon book for 3 year old",
+        "moving house story for preschooler",
+        "gift book for toddler girl boy"
+      ],
+      "etsy": [
+        "picture book pdf",
+        "printable storybook",
+        "lantern storybook",
+        "bedtime story book",
+        "toddler gift book",
+        "digital download",
+        "coloring pages pdf",
+        "read aloud book",
+        "gentle kids story",
+        "preschool book",
+        "kids book bundle",
+        "gift for 3 year old"
+      ],
+      "promise": [
+        "makes a new home feel possible"
+      ]
+    },
+    "evidence": [
+      "basis: dataset — 2809 published titles analysed",
+      "sources: openlibrary_children_20261031.csv (2809)",
+      "intake: openlibrary · signal=catalogue · fetched 2026-10-31T17:46:52Z",
+      "most open shelf: moving_house (saturation 0.2%, opportunity 418.28)",
+      "most crowded: bedtime_sleep 16.0%, adventure_quest 15.3%, talking_animals 14.5%"
+    ]
+  },
+  "intake": null,
+  "provenance": {
+    "source": "openlibrary",
+    "signal": "catalogue",
+    "fetched_at": "2026-10-31T17:46:52Z",
+    "rows": 2809,
+    "files": [
+      "secure_data/datasets/openlibrary_children_20261031.csv"
+    ],
+    "notes": [
+      "picture_books p1: 100",
+      "picture_books p2: 100",
+      "picture_books p3: 100",
+      "picture_books p4: 100",
+      "children's_fiction p1: 100",
+      "children's_fiction p2: 100",
+      "children's_fiction p3: 100",
+      "children's_fiction p4: 100",
+      "bedtime p1: 100",
+      "bedtime p2: 100",
+      "bedtime p3: 100",
+      "bedtime p4: 100",
+      "juvenile_fiction p1: 100",
+      "juvenile_fiction p2: 100",
+      "juvenile_fiction p3: 100",
+      "juvenile_fiction p4: 100",
+      "friendship p1: 100",
+      "friendship p2: 100",
+      "friendship p3: 100",
+      "friendship p4: 100",
+      "animals p1: 100",
+      "animals p2: 100",
+      "animals p3: 100",
+      "animals p4: 100"
+    ],
+    "url_template": "https://openlibrary.org/subjects/{subject}.json?limit={limit}&offset={offset}",
+    "subjects": [
+      "picture_books",
+      "children's_fiction",
+      "bedtime",
+      "juvenile_fiction",
+      "friendship",
+      "animals",
+      "family",
+      "fantasy",
+      "bedtime_stories",
+      "adventure"
+    ],
+    "signal_note": "Open Library is a catalogue (titles, subjects, editions) — not sales data. Use Kaggle bestsellers for sales ranking.",
+    "license_note": "Open Library data is published under CC0 for bibliographic records."
+  }
+}
